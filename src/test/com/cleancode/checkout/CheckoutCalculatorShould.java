@@ -70,4 +70,14 @@ public class CheckoutCalculatorShould {
         Assert.assertEquals(10, checkOutCalculator.getTotalPriceForAllItems());
     }
 
+    @Test
+    public void return_total_price_as_40_after_adding_individual_item_A_for_3_times_and_item_B_for_1_time () {
+        CheckOutCalculator checkOutCalculator =  new CheckOutCalculator();
+        checkOutCalculator.scan("A");
+        checkOutCalculator.scan("A");
+        checkOutCalculator.scan("B");
+        checkOutCalculator.scan("A");
+        Assert.assertEquals(45, checkOutCalculator.getTotalPriceForAllItems());
+    }
+
 }
