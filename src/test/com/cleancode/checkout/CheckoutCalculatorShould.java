@@ -63,4 +63,11 @@ public class CheckoutCalculatorShould {
         Assert.assertEquals(90, checkOutCalculator.calculatePrice(itemsList));
     }
 
+    @Test
+    public void return_total_price_as_10_for_after_adding_individual_item_A_to_cart () {
+        CheckOutCalculator checkOutCalculator =  new CheckOutCalculator();
+        checkOutCalculator.scan("A");
+        Assert.assertEquals(10, checkOutCalculator.getTotalPriceForAllItems());
+    }
+
 }
