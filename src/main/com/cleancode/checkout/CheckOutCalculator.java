@@ -28,7 +28,7 @@ public class CheckOutCalculator {
         return getTotalPriceForAllItems();
     }
 
-    private int getTotalPriceForAllItems() {
+    public int getTotalPriceForAllItems() {
         int sum = 0;
         for (Map.Entry<String, Item> entry : priceList.entrySet()) {
             DiscountPricingRule currentRule = discountPricingRuleMap.getOrDefault(entry.getKey(), defaultRule);
@@ -63,5 +63,10 @@ public class CheckOutCalculator {
             Item currentItem = priceList.getOrDefault(item, defaultItem);
             currentItem.setItemQuantity(currentItem.getItemQuantity()+1);
         }
+    }
+
+    public void scan(String itemCode){
+        Item currentItem = priceList.getOrDefault(itemCode, defaultItem);
+        currentItem.setItemQuantity(currentItem.getItemQuantity()+1);
     }
 }
