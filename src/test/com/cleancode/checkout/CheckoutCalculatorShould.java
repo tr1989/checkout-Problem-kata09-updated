@@ -27,4 +27,12 @@ public class CheckoutCalculatorShould {
         List<String> itemsList = Arrays.asList("A","B");
         Assert.assertEquals(30, checkOutCalculator.calculatePrice(itemsList));
     }
+
+    @Test
+    public void return_total_price_as_20_for_2_units_of_item_A () {
+        CheckOutCalculator checkOutCalculator =  new CheckOutCalculator();
+        List<String> itemsList = Arrays.asList("A","A");
+        Assert.assertEquals(20, checkOutCalculator.calculatePrice(itemsList));
+    }
+
 }
