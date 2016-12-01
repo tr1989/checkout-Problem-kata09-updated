@@ -9,6 +9,9 @@ public class CheckOutCalculator {
     private Map<String, Item> priceList = new HashMap<>();
     private Map<String, DiscountPricingRule> discountPricingRuleMap = new HashMap<>();
 
+    Item defaultItem = new Item("default",0);
+    DiscountPricingRule defaultRule = new DiscountPricingRule("default", 0,0);
+
     public CheckOutCalculator() {
         this.priceList.put("A", new Item("A", 10));
         this.priceList.put("B", new Item("B", 20));
@@ -19,14 +22,14 @@ public class CheckOutCalculator {
     }
 
     public int calculatePrice(List<String> itemsList) {
-        int sum = 0;
-        Item defaultItem = new Item("default",0);
-        DiscountPricingRule defaultRule = new DiscountPricingRule("default", 0,0);
 
-        for (String item: itemsList) {
-            Item currentItem = priceList.getOrDefault(item, defaultItem);
-            currentItem.setItemQuantity(currentItem.getItemQuantity()+1);
-        }
+        scanItemFromList(itemsList);
+
+        return getTotalPriceForAllItems();
+    }
+
+    private int getTotalPriceForAllItems() {
+        int sum = 0;
         for (Map.Entry<String, Item> entry : priceList.entrySet()) {
             DiscountPricingRule currentRule = discountPricingRuleMap.getOrDefault(entry.getKey(), defaultRule);
             if ("A".equals(entry.getKey()) && currentRule.getItemQuantityForDiscount() == entry.getValue().getItemQuantity()) {
@@ -38,5 +41,12 @@ public class CheckOutCalculator {
             }
         }
         return sum;
+    }
+
+    private void scanItemFromList(List<String> itemsList) {
+        for (String item: itemsList) {
+            Item currentItem = priceList.getOrDefault(item, defaultItem);
+            currentItem.setItemQuantity(currentItem.getItemQuantity()+1);
+        }
     }
 }
