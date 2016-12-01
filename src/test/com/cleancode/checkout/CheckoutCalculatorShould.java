@@ -10,13 +10,15 @@ public class CheckoutCalculatorShould {
     @Test
     public void return_total_price_as_10_for_one_unit_of_item_A() {
         CheckOutCalculator checkOutCalculator =  new CheckOutCalculator();
-        Assert.assertEquals(10, checkOutCalculator.calculatePrice("A"));
+        List<String> itemsList = Arrays.asList("A");
+        Assert.assertEquals(10, checkOutCalculator.calculatePrice(itemsList));
     }
 
     @Test
     public void return_total_price_as_20_for_one_unit_of_item_B() {
         CheckOutCalculator checkOutCalculator =  new CheckOutCalculator();
-        Assert.assertEquals(20, checkOutCalculator.calculatePrice("B"));
+        List<String> itemsList = Arrays.asList("B");
+        Assert.assertEquals(20, checkOutCalculator.calculatePrice(itemsList));
     }
 
     @Test
