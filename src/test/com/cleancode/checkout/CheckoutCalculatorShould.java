@@ -56,4 +56,11 @@ public class CheckoutCalculatorShould {
         Assert.assertEquals(45, checkOutCalculator.calculatePrice(itemsList));
     }
 
+    @Test
+    public void return_total_price_with_discount_as_90_for_5_units_of_item_B () {
+        CheckOutCalculator checkOutCalculator =  new CheckOutCalculator();
+        List<String> itemsList = Arrays.asList("B","B","B","B","B");
+        Assert.assertEquals(90, checkOutCalculator.calculatePrice(itemsList));
+    }
+
 }
