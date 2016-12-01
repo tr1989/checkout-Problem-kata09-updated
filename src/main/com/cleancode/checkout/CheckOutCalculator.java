@@ -32,13 +32,21 @@ public class CheckOutCalculator {
         int sum = 0;
         for (Map.Entry<String, Item> entry : priceList.entrySet()) {
             DiscountPricingRule currentRule = discountPricingRuleMap.getOrDefault(entry.getKey(), defaultRule);
-            if ("A".equals(entry.getKey()) && currentRule.getItemQuantityForDiscount() == entry.getValue().getItemQuantity()) {
-                sum += currentRule.getDiscountedPrice();
-            } else if("B".equals(entry.getKey()) && currentRule.getItemQuantityForDiscount() == entry.getValue().getItemQuantity()) {
-                sum += currentRule.getDiscountedPrice();
-            } else {
-                sum += priceList.getOrDefault(entry.getKey(), defaultItem).getItemPrice() * entry.getValue().getItemQuantity();
-            }
+
+                int quantityInCart = entry.getValue().getItemQuantity();
+                int itemActualPrice = entry.getValue().getItemPrice();
+
+                int itemQuantityForDiscount = currentRule.getItemQuantityForDiscount();
+                int discountedPrice = currentRule.getDiscountedPrice();
+
+                if(quantityInCart >= itemQuantityForDiscount){
+                    int discountedSetOfItems = quantityInCart / itemQuantityForDiscount;
+                    int remainingQuantity = quantityInCart % itemQuantityForDiscount;
+                    sum += discountedPrice * discountedSetOfItems;
+                    sum += itemActualPrice * remainingQuantity;
+                } else {
+                    sum += itemActualPrice * quantityInCart;
+                }
         }
         return sum;
     }
