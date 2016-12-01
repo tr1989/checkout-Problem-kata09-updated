@@ -9,4 +9,10 @@ public class CheckoutCalculatorShould {
         CheckOutCalculator checkOutCalculator =  new CheckOutCalculator();
         Assert.assertEquals(10, checkOutCalculator.calculatePrice("A"));
     }
+
+    @Test
+    public void return_total_price_as_20_for_one_unit_of_item_B() {
+        CheckOutCalculator checkOutCalculator =  new CheckOutCalculator();
+        Assert.assertEquals(20, checkOutCalculator.calculatePrice("B"));
+    }
 }
