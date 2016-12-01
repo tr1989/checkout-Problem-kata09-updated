@@ -6,11 +6,11 @@ import java.util.Map;
 
 public class CheckOutCalculator {
 
-    private Map<String, Integer> priceList = new HashMap<String, Integer>();
+    private Map<String, Item> priceList = new HashMap<>();
 
     public CheckOutCalculator() {
-        this.priceList.put("A", 10);
-        this.priceList.put("B", 20);
+        this.priceList.put("A", new Item("A", 10));
+        this.priceList.put("B", new Item("B", 20));
     }
 
     public int calculatePrice(List<String> itemsList) {
@@ -20,21 +20,20 @@ public class CheckOutCalculator {
         int quantityForDiscountForItemB = 2;
         int priceAfterDiscountForItemB = 35;
 
+        Item defaultItem = new Item("default",0);
+
         Map<String, Integer> quantityCounterMap = new HashMap<String,Integer>();
         for (String item: itemsList) {
-            if(quantityCounterMap.containsKey(item)) {
-                quantityCounterMap.put(item, quantityCounterMap.get(item)+1);
-            } else {
-                quantityCounterMap.put(item,1);
-            }
+            Item currentItem = priceList.getOrDefault(item, defaultItem);
+            currentItem.setItemQuantity(currentItem.getItemQuantity()+1);
         }
-        for (Map.Entry<String, Integer> entry : quantityCounterMap.entrySet()) {
-            if ("A".equals(entry.getKey()) && quantityForDiscountForItemA == entry.getValue()) {
+        for (Map.Entry<String, Item> entry : priceList.entrySet()) {
+            if ("A".equals(entry.getKey()) && quantityForDiscountForItemA == entry.getValue().getItemQuantity()) {
                 sum += priceAfterDiscountForItemA;
-            } else if("B".equals(entry.getKey()) && quantityForDiscountForItemB == entry.getValue()) {
+            } else if("B".equals(entry.getKey()) && quantityForDiscountForItemB == entry.getValue().getItemQuantity()) {
                 sum += priceAfterDiscountForItemB;
             } else {
-                sum += priceList.getOrDefault(entry.getKey(), 0) * entry.getValue();
+                sum += priceList.getOrDefault(entry.getKey(), defaultItem).getItemPrice() * entry.getValue().getItemQuantity();
             }
         }
         return sum;
