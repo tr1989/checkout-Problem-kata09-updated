@@ -17,6 +17,9 @@ public class CheckOutCalculator {
         int sum = 0;
         int quantityForDiscountForItemA = 3;
         int priceAfterDiscountForItemA = 25;
+        int quantityForDiscountForItemB = 2;
+        int priceAfterDiscountForItemB = 35;
+
         Map<String, Integer> quantityCounterMap = new HashMap<String,Integer>();
         for (String item: itemsList) {
             if(quantityCounterMap.containsKey(item)) {
@@ -28,6 +31,8 @@ public class CheckOutCalculator {
         for (Map.Entry<String, Integer> entry : quantityCounterMap.entrySet()) {
             if ("A".equals(entry.getKey()) && quantityForDiscountForItemA == entry.getValue()) {
                 sum += priceAfterDiscountForItemA;
+            } else if("B".equals(entry.getKey()) && quantityForDiscountForItemB == entry.getValue()) {
+                sum += priceAfterDiscountForItemB;
             } else {
                 sum += priceList.getOrDefault(entry.getKey(), 0) * entry.getValue();
             }
