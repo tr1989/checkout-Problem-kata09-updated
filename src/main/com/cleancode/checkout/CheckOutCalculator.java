@@ -32,23 +32,30 @@ public class CheckOutCalculator {
         int sum = 0;
         for (Map.Entry<String, Item> entry : priceList.entrySet()) {
             DiscountPricingRule currentRule = discountPricingRuleMap.getOrDefault(entry.getKey(), defaultRule);
+            Item currentItemType = entry.getValue();
 
-                int quantityInCart = entry.getValue().getItemQuantity();
-                int itemActualPrice = entry.getValue().getItemPrice();
-
-                int itemQuantityForDiscount = currentRule.getItemQuantityForDiscount();
-                int discountedPrice = currentRule.getDiscountedPrice();
-
-                if(quantityInCart >= itemQuantityForDiscount){
-                    int discountedSetOfItems = quantityInCart / itemQuantityForDiscount;
-                    int remainingQuantity = quantityInCart % itemQuantityForDiscount;
-                    sum += discountedPrice * discountedSetOfItems;
-                    sum += itemActualPrice * remainingQuantity;
-                } else {
-                    sum += itemActualPrice * quantityInCart;
-                }
+            sum += getTotalPriceForAllUnitsOfIndividualItem(currentRule, currentItemType);
         }
         return sum;
+    }
+
+    private int getTotalPriceForAllUnitsOfIndividualItem(DiscountPricingRule currentRule, Item currentItemType) {
+        int total = 0;
+        int quantityInCart = currentItemType.getItemQuantity();
+        int itemActualPrice = currentItemType.getItemPrice();
+
+        int itemQuantityForDiscount = currentRule.getItemQuantityForDiscount();
+        int discountedPrice = currentRule.getDiscountedPrice();
+
+        if(quantityInCart >= itemQuantityForDiscount){
+            int discountedSetOfItems = quantityInCart / itemQuantityForDiscount;
+            int remainingQuantity = quantityInCart % itemQuantityForDiscount;
+            total += discountedPrice * discountedSetOfItems;
+            total += itemActualPrice * remainingQuantity;
+        } else {
+            total += itemActualPrice * quantityInCart;
+        }
+        return total;
     }
 
     private void scanItemFromList(List<String> itemsList) {
